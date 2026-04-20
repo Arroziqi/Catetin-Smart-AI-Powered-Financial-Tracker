@@ -1,6 +1,6 @@
-# 🚀 Task Management App (Weekly Planner)
+# 🖥️ Catetin Desk (Task Management)
 
-A modern fullstack task management application designed for developers to manage weekly learning or project plans (Week 1–3) with structured daily tasks, progress tracking, and financial-style summaries.
+A modern desktop-optimized web application for managing tasks and project plans, part of the **Catetin** ecosystem. Designed for developers to manage weekly learning or project plans with structured daily tasks.
 
 ---
 

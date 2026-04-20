@@ -142,7 +142,21 @@ Catetin menggunakan pendekatan **microservices architecture** untuk memastikan s
 
 ---
 
-# ⚙️ 9. Tech Stack
+# 📂 9. Project Structure
+
+| Component | Description | Link |
+| --- | --- | --- |
+| **Backend** | Go (Fiber) API Service | [./backend/](./backend/) |
+| **AI Service** | Python (Ollama/LangChain) engine | [./ai-service/](./ai-service/) |
+| **Frontend** | Next.js Web Dashboard | [./frontend/](./frontend/) |
+| **Mobile** | Kotlin (Android) App | [./mobile/](./mobile/) |
+| **Desk** | Vite (Desktop-optimized) Task App | [./desk/](./desk/) |
+| **Docs** | System Documentation & API Contracts | [./docs/](./docs/) |
+| **UI Templates** | Figma & Design Assets | [./ui-templates/](./ui-templates/) |
+
+---
+
+# ⚙️ 10. Tech Stack
 
 ## Frontend
 
@@ -174,7 +188,7 @@ Catetin menggunakan pendekatan **microservices architecture** untuk memastikan s
 
 ---
 
-# 🔐 10. Keamanan
+# 🔐 11. Keamanan
 
 * JWT Authentication
 * Secure API communication
@@ -182,7 +196,7 @@ Catetin menggunakan pendekatan **microservices architecture** untuk memastikan s
 
 ---
 
-# 📊 11. Data Structure (Simplified)
+# 📊 12. Data Structure (Simplified)
 
 ## Transaction
 
@@ -206,7 +220,7 @@ Catetin menggunakan pendekatan **microservices architecture** untuk memastikan s
 
 ---
 
-# 🚀 12. Roadmap Pengembangan
+# 🚀 13. Roadmap Pengembangan
 
 ## Phase 1 (MVP)
 
@@ -233,7 +247,7 @@ Catetin menggunakan pendekatan **microservices architecture** untuk memastikan s
 
 ---
 
-# 💰 13. Model Bisnis (Opsional)
+# 💰 14. Model Bisnis (Opsional)
 
 * Freemium:
 
@@ -244,7 +258,7 @@ Catetin menggunakan pendekatan **microservices architecture** untuk memastikan s
 
 ---
 
-# 🔥 14. Keunggulan Kompetitif
+# 🔥 15. Keunggulan Kompetitif
 
 * Input berbasis gambar (lebih cepat dari manual)
 * Insight naratif berbasis AI
@@ -253,6 +267,6 @@ Catetin menggunakan pendekatan **microservices architecture** untuk memastikan s
 
 ---
 
-# 🎯 15. Kesimpulan
+# 🎯 16. Kesimpulan
 
 Catetin bukan hanya aplikasi pencatatan keuangan, tetapi sebuah **financial companion** yang membantu pengguna memahami dan mengelola keuangan mereka secara lebih cerdas melalui teknologi AI.
