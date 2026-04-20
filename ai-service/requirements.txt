@@ -1,0 +1,7 @@
+# Python dependencies for AI service
+# Add your requirements here when developing
+
+# Example:
+# fastapi
+# uvicorn
+# openai

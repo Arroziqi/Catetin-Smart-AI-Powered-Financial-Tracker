@@ -1,0 +1,72 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: catetin-backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - catetin-net
+    restart: unless-stopped
+    volumes:
+      - ./backend:/app
+    command: ["./main"]
+
+  db:
+    image: postgres:15
+    container_name: catetin-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: catetin
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - catetin-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # 🔥 OPTIONAL: PGADMIN (BIAR ENAK LIAT DB)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: catetin-pgadmin
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@catetin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      - db
+    networks:
+      - catetin-net
+    restart: unless-stopped
+
+  # 🔥 OPTIONAL: AI SERVICE (future-ready)
+  # ai-service:
+  #   build:
+  #     context: ./ai-service
+  #   container_name: catetin-ai
+  #   ports:
+  #     - "4000:4000"
+  #   networks:
+  #     - catetin-net
+  #   restart: unless-stopped
+
+networks:
+  catetin-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
