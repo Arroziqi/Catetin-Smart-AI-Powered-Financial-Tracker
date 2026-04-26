@@ -66,7 +66,7 @@ definitions:
     type: object
 info:
   contact: {}
-  description: Modular Hexagonal API
+  description: API Catetin Backend
   title: Catetin API
   version: "1.0"
 paths:
@@ -306,8 +306,27 @@ paths:
       summary: Update a transaction
       tags:
       - transactions
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: Check if the API is running
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Health Check
+      tags:
+      - health
+security:
+- BearerAuth: []
 securityDefinitions:
   BearerAuth:
+    description: 'Input token dengan format: Bearer <jwt_token>'
     in: header
     name: Authorization
     type: apiKey

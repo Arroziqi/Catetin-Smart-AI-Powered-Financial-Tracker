@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Modular Hexagonal API",
+        "description": "API Catetin Backend",
         "title": "Catetin API",
         "contact": {},
         "version": "1.0"
@@ -366,6 +366,30 @@
                     }
                 }
             }
+        },
+        "/health": {
+            "get": {
+                "description": "Check if the API is running",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "health"
+                ],
+                "summary": "Health Check",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -463,9 +487,15 @@
     },
     "securityDefinitions": {
         "BearerAuth": {
+            "description": "Input token dengan format: Bearer \u003cjwt_token\u003e",
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"
         }
-    }
+    },
+    "security": [
+        {
+            "BearerAuth": []
+        }
+    ]
 }

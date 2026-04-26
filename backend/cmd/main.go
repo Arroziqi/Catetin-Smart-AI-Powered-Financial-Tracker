@@ -10,6 +10,18 @@ import (
 	"catetin-backend/internal/modules/transaction"
 )
 
+// @title Catetin API
+// @version 1.0
+// @description API Catetin Backend
+// @BasePath /
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Input token dengan format: Bearer <jwt_token>
+
+// @security BearerAuth
+
 func main() {
 	config.LoadEnv()
 	database.Connect()
@@ -24,5 +36,5 @@ func main() {
 
 	app.Setup()
 
-	log.Fatal(app.Fiber.Listen(":3000"))
+	log.Fatal(app.Fiber.Listen(":3008"))
 }

@@ -1,0 +1,33 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: catetin-api
+    working_dir: /app
+    volumes:
+      - .:/app
+      - gomodcache:/go/pkg/mod
+    ports:
+      - "3008:3008"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    container_name: catetin-db-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: catetin_dev
+    ports:
+      - "5434:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+  gomodcache:
