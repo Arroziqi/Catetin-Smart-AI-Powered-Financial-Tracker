@@ -7,24 +7,48 @@ definitions:
     type: object
   dto.CreateTransactionRequest:
     properties:
-      amount:
-        minimum: 1
-        type: integer
       category:
         type: string
       date:
         description: YYYY-MM-DD
         type: string
+      items:
+        items:
+          $ref: '#/definitions/dto.ItemDTO'
+        type: array
       note:
         type: string
+      store_name:
+        type: string
+      subtotal:
+        type: number
+      tax:
+        type: number
+      total:
+        type: number
       type:
         description: income | expense
         type: string
     required:
-    - amount
     - category
     - date
+    - total
     - type
+    type: object
+  dto.ItemDTO:
+    properties:
+      name:
+        type: string
+      price:
+        minimum: 0
+        type: number
+      qty:
+        minimum: 1
+        type: integer
+    required:
+    - name
+    - price
+    - qty
     type: object
   dto.LoginRequest:
     properties:
@@ -44,24 +68,55 @@ definitions:
         example: "123456"
         type: string
     type: object
+  dto.ScanReceiptResponse:
+    properties:
+      date:
+        example: "2026-04-26"
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/dto.ItemDTO'
+        type: array
+      store_name:
+        example: Alfamart
+        type: string
+      subtotal:
+        example: 8000
+        type: number
+      tax:
+        example: 0
+        type: number
+      total:
+        example: 8000
+        type: number
+    type: object
   dto.UpdateTransactionRequest:
     properties:
-      amount:
-        minimum: 1
-        type: integer
       category:
         type: string
       date:
         description: YYYY-MM-DD
         type: string
+      items:
+        items:
+          $ref: '#/definitions/dto.ItemDTO'
+        type: array
       note:
         type: string
+      store_name:
+        type: string
+      subtotal:
+        type: number
+      tax:
+        type: number
+      total:
+        type: number
       type:
         type: string
     required:
-    - amount
     - category
     - date
+    - total
     - type
     type: object
 info:
@@ -304,6 +359,44 @@ paths:
       security:
       - BearerAuth: []
       summary: Update a transaction
+      tags:
+      - transactions
+  /api/v1/transactions/scan:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload image receipt and extract shopping data
+      parameters:
+      - description: Receipt image
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ScanReceiptResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: OCR receipt image
       tags:
       - transactions
   /health:

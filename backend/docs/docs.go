@@ -249,6 +249,64 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/transactions/scan": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Upload image receipt and extract shopping data",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transactions"
+                ],
+                "summary": "OCR receipt image",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "Receipt image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ScanReceiptResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/transactions/{id}": {
             "put": {
                 "security": [
@@ -411,16 +469,12 @@ const docTemplate = `{
         "dto.CreateTransactionRequest": {
             "type": "object",
             "required": [
-                "amount",
                 "category",
                 "date",
+                "total",
                 "type"
             ],
             "properties": {
-                "amount": {
-                    "type": "integer",
-                    "minimum": 1
-                },
                 "category": {
                     "type": "string"
                 },
@@ -428,12 +482,51 @@ const docTemplate = `{
                     "description": "YYYY-MM-DD",
                     "type": "string"
                 },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ItemDTO"
+                    }
+                },
                 "note": {
                     "type": "string"
+                },
+                "store_name": {
+                    "type": "string"
+                },
+                "subtotal": {
+                    "type": "number"
+                },
+                "tax": {
+                    "type": "number"
+                },
+                "total": {
+                    "type": "number"
                 },
                 "type": {
                     "description": "income | expense",
                     "type": "string"
+                }
+            }
+        },
+        "dto.ItemDTO": {
+            "type": "object",
+            "required": [
+                "name",
+                "price",
+                "qty"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "qty": {
+                    "type": "integer",
+                    "minimum": 1
                 }
             }
         },
@@ -463,19 +556,46 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.ScanReceiptResponse": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string",
+                    "example": "2026-04-26"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ItemDTO"
+                    }
+                },
+                "store_name": {
+                    "type": "string",
+                    "example": "Alfamart"
+                },
+                "subtotal": {
+                    "type": "number",
+                    "example": 8000
+                },
+                "tax": {
+                    "type": "number",
+                    "example": 0
+                },
+                "total": {
+                    "type": "number",
+                    "example": 8000
+                }
+            }
+        },
         "dto.UpdateTransactionRequest": {
             "type": "object",
             "required": [
-                "amount",
                 "category",
                 "date",
+                "total",
                 "type"
             ],
             "properties": {
-                "amount": {
-                    "type": "integer",
-                    "minimum": 1
-                },
                 "category": {
                     "type": "string"
                 },
@@ -483,8 +603,26 @@ const docTemplate = `{
                     "description": "YYYY-MM-DD",
                     "type": "string"
                 },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ItemDTO"
+                    }
+                },
                 "note": {
                     "type": "string"
+                },
+                "store_name": {
+                    "type": "string"
+                },
+                "subtotal": {
+                    "type": "number"
+                },
+                "tax": {
+                    "type": "number"
+                },
+                "total": {
+                    "type": "number"
                 },
                 "type": {
                     "type": "string"

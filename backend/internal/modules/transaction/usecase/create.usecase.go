@@ -19,13 +19,26 @@ func NewCreateTransactionUsecase(repo repository.ITransactionRepository) CreateT
 }
 
 func (u *createTransactionUsecase) Execute(userID uint, req dto.CreateTransactionRequest) error {
+	var items []domain.Item
+	for _, item := range req.Items {
+		items = append(items, domain.Item{
+			Name:  item.Name,
+			Qty:   item.Qty,
+			Price: item.Price,
+		})
+	}
+
 	transaction := domain.Transaction{
-		UserID:   userID,
-		Type:     req.Type,
-		Amount:   req.Amount,
-		Category: req.Category,
-		Note:     req.Note,
-		Date:     req.Date,
+		UserID:    userID,
+		Type:      req.Type,
+		Category:  req.Category,
+		Note:      req.Note,
+		StoreName: req.StoreName,
+		Date:      req.Date,
+		Items:     items,
+		Subtotal:  req.Subtotal,
+		Tax:       req.Tax,
+		Total:     req.Total,
 	}
 
 	return u.repo.Create(transaction)
