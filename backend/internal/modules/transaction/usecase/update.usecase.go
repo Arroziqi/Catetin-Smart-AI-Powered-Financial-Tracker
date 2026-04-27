@@ -19,12 +19,25 @@ func NewUpdateTransactionUsecase(repo repository.ITransactionRepository) UpdateT
 }
 
 func (u *updateTransactionUsecase) Execute(id uint, userID uint, req dto.UpdateTransactionRequest) error {
+	var items []domain.Item
+	for _, item := range req.Items {
+		items = append(items, domain.Item{
+			Name:  item.Name,
+			Qty:   item.Qty,
+			Price: item.Price,
+		})
+	}
+
 	transaction := domain.Transaction{
-		Type:     req.Type,
-		Amount:   req.Amount,
-		Category: req.Category,
-		Note:     req.Note,
-		Date:     req.Date,
+		Type:      req.Type,
+		Category:  req.Category,
+		Note:      req.Note,
+		StoreName: req.StoreName,
+		Date:      req.Date,
+		Items:     items,
+		Subtotal:  req.Subtotal,
+		Tax:       req.Tax,
+		Total:     req.Total,
 	}
 
 	return u.repo.Update(id, userID, transaction)

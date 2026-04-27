@@ -33,12 +33,14 @@ func (m *Module) Register(app *fiber.App) {
 	getUc := usecase.NewGetTransactionUsecase(repo)
 	updateUc := usecase.NewUpdateTransactionUsecase(repo)
 	deleteUc := usecase.NewDeleteTransactionUsecase(repo)
+	aiScanUc := usecase.NewAIScanUsecase()
 
 	// Initialize Handlers
 	createH := handler.NewCreateTransactionHandler(createUc)
 	getH := handler.NewGetTransactionHandler(getUc)
 	updateH := handler.NewUpdateTransactionHandler(updateUc)
 	deleteH := handler.NewDeleteTransactionHandler(deleteUc)
+	aiScanH := handler.NewAIScanHandler(aiScanUc)
 
 	// Configure Routes
 	api := app.Group("/api/v1/transactions")
@@ -47,6 +49,7 @@ func (m *Module) Register(app *fiber.App) {
 	api.Get("/", middleware.AuthMiddleware, getH.Handle).Name("transaction.get")
 	api.Put("/:id", middleware.AuthMiddleware, updateH.Handle).Name("transaction.update")
 	api.Delete("/:id", middleware.AuthMiddleware, deleteH.Handle).Name("transaction.delete")
+	api.Post("/scan", middleware.AuthMiddleware, aiScanH.Handle).Name("transaction.scan")
 }
 
 func (m *Module) Swagger() []interface{} {
@@ -55,5 +58,6 @@ func (m *Module) Swagger() []interface{} {
 		dto.UpdateTransactionRequest{},
 		dto.GetTransactionQuery{},
 		domain.Transaction{},
+		dto.ScanReceiptResponse{},
 	}
 }
