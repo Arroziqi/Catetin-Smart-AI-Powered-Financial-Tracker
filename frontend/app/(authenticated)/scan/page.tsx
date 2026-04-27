@@ -1,13 +1,14 @@
-import { useState, useCallback } from "react";
-import { useNavigate } from "react-router";
-import { motion } from "motion/react";
-import { Upload, Scan, Loader2, Image as ImageIcon } from "lucide-react";
-import { Card, CardContent } from "@/lib/components/ui/card";
-import { Button } from "@/lib/components/ui/button";
-import { cn } from "@/lib/components/ui/utils";
+"use client";
 
-export function ScanReceiptPage() {
-  const navigate = useNavigate();
+import { useState, useCallback } from "react";
+import { motion } from "motion/react";
+import { Scan, Loader2, Image as ImageIcon } from "lucide-react";
+import { Card, CardContent } from "@/lib/components/ui/card";
+import { cn } from "@/lib/components/ui/utils";
+import { useRouter } from "next/navigation";
+
+export default function ScanReceiptPage() {
+  const router = useRouter();
   const [dragActive, setDragActive] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
@@ -52,24 +53,22 @@ export function ScanReceiptPage() {
     setTimeout(() => {
       setUploading(false);
       // Navigate to review page with mock data
-      navigate("/review-receipt", {
-        state: {
-          receiptData: {
-            merchant: "The Coffee House",
-            date: "Apr 7, 2026",
-            items: [
-              { id: "1", name: "Caffe Latte", quantity: 2, price: 5.50, total: 11.00, enabled: true },
-              { id: "2", name: "Croissant", quantity: 1, price: 4.00, total: 4.00, enabled: true },
-              { id: "3", name: "Avocado Toast", quantity: 1, price: 8.50, total: 8.50, enabled: true },
-              { id: "4", name: "Orange Juice", quantity: 2, price: 3.50, total: 7.00, enabled: true },
-            ],
-            subtotal: 30.50,
-            tax: 2.75,
-            serviceFee: 1.50,
-            total: 34.75,
-          },
-        },
-      });
+      // Pass mock data via query string (for demonstration; use a global state/store for real data)
+      const receiptData = encodeURIComponent(JSON.stringify({
+        merchant: "The Coffee House",
+        date: "Apr 7, 2026",
+        items: [
+          { id: "1", name: "Caffe Latte", quantity: 2, price: 5.50, total: 11.00, enabled: true },
+          { id: "2", name: "Croissant", quantity: 1, price: 4.00, total: 4.00, enabled: true },
+          { id: "3", name: "Avocado Toast", quantity: 1, price: 8.50, total: 8.50, enabled: true },
+          { id: "4", name: "Orange Juice", quantity: 2, price: 3.50, total: 7.00, enabled: true },
+        ],
+        subtotal: 30.50,
+        tax: 2.75,
+        serviceFee: 1.50,
+        total: 34.75,
+      }));
+      router.push(`/review-receipt?data=${receiptData}`);
     }, 2500);
   };
 

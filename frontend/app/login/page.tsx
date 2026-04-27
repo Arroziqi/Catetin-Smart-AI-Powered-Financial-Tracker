@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { Wallet, Sparkles } from "lucide-react";
 import { Button } from "@/lib/components/ui/button";
@@ -8,14 +8,14 @@ import { Label } from "@/lib/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/lib/components/ui/card";
 
 export function LoginPage() {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     // Mock login - in real app would call API
-    navigate("/");
+    router.push("/");
   };
 
   return (
@@ -75,7 +75,7 @@ export function LoginPage() {
             <div className="mt-6 text-center">
               <button 
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                onClick={() => navigate("/")}
+                onClick={() => router.push("/register")}
               >
                 Don't have an account? <span className="text-primary font-medium">Create account</span>
               </button>
