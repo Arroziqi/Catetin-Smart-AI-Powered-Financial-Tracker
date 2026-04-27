@@ -1,3 +1,5 @@
+'use client'
+
 import { TrendingUp, TrendingDown, Wallet, Sparkles, Filter } from "lucide-react";
 import { motion } from "motion/react";
 import { SummaryCard } from "@/lib/components/SummaryCard";
@@ -69,9 +71,9 @@ const mockTransactions: Transaction[] = [
   },
 ];
 
-export function DashboardPage() {
+export default function DashboardPage() {
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -109,7 +111,7 @@ export function DashboardPage() {
       </div>
 
       {/* AI Insight */}
-      <InsightCard 
+      <InsightCard
         insight="Your spending increased this week due to frequent food purchases and online shopping. Consider meal prepping to reduce food expenses by 20-30%."
         period="This week"
       />
@@ -125,16 +127,16 @@ export function DashboardPage() {
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={spendingData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis 
-                  dataKey="date" 
+                <XAxis
+                  dataKey="date"
                   stroke="#6b7280"
                   fontSize={12}
                 />
-                <YAxis 
+                <YAxis
                   stroke="#6b7280"
                   fontSize={12}
                 />
-                <Tooltip 
+                <Tooltip
                   contentStyle={{
                     backgroundColor: 'white',
                     border: '1px solid #e5e7eb',
@@ -142,10 +144,10 @@ export function DashboardPage() {
                     fontSize: '14px',
                   }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="amount" 
-                  stroke="#10b981" 
+                <Line
+                  type="monotone"
+                  dataKey="amount"
+                  stroke="#10b981"
                   strokeWidth={3}
                   dot={{ fill: '#10b981', r: 4 }}
                   activeDot={{ r: 6 }}
