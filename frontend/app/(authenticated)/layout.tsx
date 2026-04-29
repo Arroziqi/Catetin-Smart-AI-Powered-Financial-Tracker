@@ -7,11 +7,14 @@ import { Avatar, AvatarFallback } from "@/lib/components/ui/avatar";
 import { Button } from "@/lib/components/ui/button";
 import { cn } from "@/lib/components/ui/utils";
 import { TransactionModal } from "@/lib/components/TransactionModal";
+import { useLogout } from "@/lib/modules/auth/logout/useLogout";
 
 export default function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const [showTransactionModal, setShowTransactionModal] = useState(false);
+
+  const { logout } = useLogout()
 
   const navItems = [
     { path: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -30,7 +33,7 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
       <header className="sticky top-0 z-40 border-b bg-white/80 backdrop-blur-lg">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-linear-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
               <Wallet className="w-5 h-5 text-white" strokeWidth={2.5} />
             </div>
             <span className="font-semibold text-xl">Catetin</span>
@@ -54,7 +57,7 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
           <div className="flex items-center gap-3">
             <Button
               onClick={() => setShowTransactionModal(true)}
-              className="hidden md:flex gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
+              className="hidden md:flex gap-2 bg-linear-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
             >
               <Plus className="w-4 h-4" />
               Add Transaction
@@ -62,7 +65,7 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => router.push("/login")}
+              onClick={() => logout()}
               className="rounded-full"
             >
               <LogOut className="w-4 h-4" />
